@@ -16,7 +16,7 @@ and open the template in the editor.
     <body>
         <?php
             $studentDataObj = new StudentHandler();
-            $studentData = $studentDataObj->fromArray();
+            $studentData = $studentDataObj->fetchStudent(5);
             print_r($studentData);die;
 //        
 //        $a = new StudentsData();
