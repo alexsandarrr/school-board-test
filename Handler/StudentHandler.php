@@ -9,8 +9,8 @@ require_once './Model/Student.php';
  *
  * @author alexsandarrr
  */
-class StudentHandler {
-    
+class StudentHandler 
+{
     const STUDENTS_KEY = 'students';
     
     const ID_KEY = 'id';
@@ -18,11 +18,17 @@ class StudentHandler {
     const GRADES_KEY = 'grades';
     const BOARD_KEY = 'board';
     
+    const CSM_BOARD = 'CSM';
+    const CSMB_BOARD = 'CSMB';
+    
+    const CSM_PASS_VALUE = 7;
+    const CSMB_PASS_VALUE = 8;
+    
     /**
      *
      * @var Student[]
      */
-    private $students = [];
+    protected $students = [];
     
     /**
      *
@@ -30,26 +36,11 @@ class StudentHandler {
      */
     private $studentIds = [];
     
-    
-    public function fetchStudent (string $id)
-    {
-        $this->setStudents();
-        $this->setStudentIds();
-        
-        $this->ensureStudentId($id);
-        
-        foreach ($this->students as $student) {
-            if ($student->getId() === $id) {
-                return $student;
-            }
-        }
-    }
-    
     /**
      * 
      * @return void
      */
-    private function setStudents (): void
+    protected function setStudents (): void
     {
         if (!empty($this->students)) {
             return;
@@ -74,7 +65,7 @@ class StudentHandler {
      * 
      * @return void
      */
-    private function setStudentIds(): void
+    protected function setStudentIds(): void
     {
         if (!empty($this->studentIds)) {
             return;
@@ -92,10 +83,64 @@ class StudentHandler {
      * @param string $id
      * @return void
      */
-    private function ensureStudentId(string $id): void
+    protected function ensureStudentId(string $id): void
     {
         if (!in_array($id, $this->studentIds)) {
-            echo(sprintf('Student with id %s does not exist', $id));die;
+            echo(sprintf('Student with id %s does not exist.', $id));
+            die;
+        }
+    }
+    
+    /**
+     * 
+     * @param Student $student
+     * @return string
+     */
+    protected function CSMCalculation (Student $student): string
+    {
+        $grades = $student->getGrades();
+        $avg = array_sum($grades) / count($grades);
+        
+        $student->setAverage($avg);
+        $student->setPassed($avg >= self::CSM_PASS_VALUE);
+        
+        return $student->jsonSerialize();
+    }
+    
+    /**
+     * 
+     * @param Student $student
+     * @return string
+     */
+    protected function CSMBCalculation (Student $student): string
+    {
+        $grades = $student->getGrades();
+        $this->ensureGrades($grades);
+        
+        $avg = array_sum($grades) / count($grades);
+        
+        if (count($grades) > 2) {
+            sort($grades);
+            array_shift($grades);
+        }
+        
+        $maxGrade = max($grades);
+        
+        $student->setAverage($avg);
+        $student->setPassed($maxGrade >= self::CSMB_PASS_VALUE);
+        
+        return $student->jsonSerialize();
+    }
+    
+    /**
+     * 
+     * @param array $grades
+     */
+    private function ensureGrades (array $grades): void
+    {
+        if (empty($grades)) {
+            echo 'There are no grades for this student.';
+            die;
         }
     }
 }

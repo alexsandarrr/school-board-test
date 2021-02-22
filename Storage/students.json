@@ -4,7 +4,7 @@
             "id": "1",
             "name": "Student 1",
             "grades": [
-                7, 8, 9, 10
+                10, 8, 9, 7
             ],
             "board": "CSM"
         },
@@ -28,7 +28,7 @@
             "id": "4",
             "name": "Student 4",
             "grades": [
-                6, 8, 10
+                6, 7
             ],
             "board": "CSMB"
         }

@@ -6,7 +6,8 @@ declare(strict_types=1);
  *
  * @author alexsandarrr
  */
-class StudentsData {
+class StudentsData 
+{
     /**
      * 
      * @return array
