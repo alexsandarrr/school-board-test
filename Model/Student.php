@@ -6,42 +6,43 @@ declare(strict_types=1);
  *
  * @author alexsandarrr
  */
-class Student {
+class Student 
+{
     /**
      *
      * @var string
      */
-    private $id;
+    public $id;
     
     /**
      *
      * @var string
      */
-    private $name;
+    public $name;
     
     /**
      *
      * @var array
      */
-    private $grades;
+    public $grades;
     
     /**
      *
      * @var string
      */
-    private $board;
+    public $board;
     
     /**
      *
      * @var float
      */
-    private $average = 0;
+    public $average = 0;
     
     /**
      *
      * @var bool
      */
-    private $passed = false;
+    public $passed = false;
     
     /**
      * 
@@ -153,10 +154,18 @@ class Student {
      * @param bool $passed
      * @return void
      */
-    public function setPassed($passed): void
+    public function setPassed(bool $passed): void
     {
         $this->passed = $passed;
     }
+    
+    public function jsonSerialize()
+    {
+        $objectArray = [];
+        foreach($this as $key => $value) {
+            $objectArray[$key] = $value;
+        }
 
-
+        return json_encode($objectArray);
+    }
 }
