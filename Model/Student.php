@@ -21,21 +21,45 @@ class Student {
     
     /**
      *
-     * @var type array
+     * @var array
      */
     private $grades;
+    
+    /**
+     *
+     * @var string
+     */
+    private $board;
+    
+    /**
+     *
+     * @var float
+     */
+    private $average = 0;
+    
+    /**
+     *
+     * @var bool
+     */
+    private $passed = false;
     
     /**
      * 
      * @param string $id
      * @param string $name
      * @param array  $grades
+     * @param string $board
      */
-    public function __construct(string $id, string $name, array $grades) 
-    {
+    public function __construct(
+        string $id, 
+        string $name, 
+        array $grades, 
+        string $board
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->grades = $grades;
+        $this->board = $board;
     }
     
     /**
@@ -64,7 +88,16 @@ class Student {
     {
         return $this->grades;
     }
-
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getBoard(): string
+    {
+        return $this->board;
+    }
+    
     /**
      * 
      * @param string $id
@@ -94,4 +127,36 @@ class Student {
     {
         $this->grades = $grades;
     }
+
+    /**
+     * 
+     * @param string $board
+     * @return void
+     */
+    public function setBoard(string $board): void
+    {
+        $this->board = $board;
+    }
+    
+    /**
+     * 
+     * @param float $average
+     * @return void
+     */
+    public function setAverage(float $average): void
+    {
+        $this->average = $average;
+    }
+
+    /**
+     * 
+     * @param bool $passed
+     * @return void
+     */
+    public function setPassed($passed): void
+    {
+        $this->passed = $passed;
+    }
+
+
 }
